@@ -1,4 +1,4 @@
-To run streamlit run main.py
+To run: python main.py
 
 🚀 Advanced Features:
 
