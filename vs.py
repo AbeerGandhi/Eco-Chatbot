@@ -1,19 +1,19 @@
-from flask import Flask, render_template, render_template_string, request, jsonify
+from flask import Flask, render_template_string, request, jsonify, session
 import re
+import json
+from datetime import datetime
 import random
 import secrets
 import os
 import logging
 
-# Configure logging to log to console
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 app = Flask(__name__)
 
-# Set secret key for session management
-app.secret_key = os.environ.get('FLASK_SECRET_KEY', secrets.token_hex(16))
+# Set a secret key for session management
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", secrets.token_hex(16))
 
-# Comprehensive knowledge base
 KNOWLEDGE_BASE = {
     "company_info": {
         "name": "ECO Matrix",
@@ -24,7 +24,6 @@ KNOWLEDGE_BASE = {
         "founded": "Established energy modeling consultancy",
         "team": "Expert energy modeling professionals and engineers"
     },
-    
     "services": {
         "primary": "SaaS application for building design optimization",
         "energy_modeling": "Advanced parametric energy modeling protocols",
@@ -35,7 +34,6 @@ KNOWLEDGE_BASE = {
         "design_optimization": "Building design solution identification",
         "load_analysis": "Detailed building load analysis"
     },
-    
     "platform_features": {
         "3d_modeling": "Generate 3D, project-specific building models",
         "energy_simulation": "Perform energy simulations for various design combinations",
@@ -45,13 +43,11 @@ KNOWLEDGE_BASE = {
         "reporting": "Detailed performance reports and analytics",
         "integration": "Integration with existing AEC workflows"
     },
-    
     "contact": {
         "email": "anup@ecomatrix.io",
         "phone": "+1 (204) 894 0387",
         "website": "https://ecomatrix.io"
     },
-    
     "technical_specs": {
         "technology": "Proprietary SaaS application",
         "modeling_type": "Parametric energy modeling",
@@ -62,19 +58,13 @@ KNOWLEDGE_BASE = {
 }
 
 class AdvancedChatbot:
-    def __init__(self):
-        pass
-        
     def preprocess_query(self, query):
-        """Clean and normalize the user query"""
         query = query.lower().strip()
-        # Remove extra spaces and punctuation
         query = re.sub(r'[^\w\s]', ' ', query)
         query = re.sub(r'\s+', ' ', query)
         return query
-    
+
     def extract_intent(self, query):
-        """Determine user intent from the query"""
         intents = {
             'greeting': ['hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening'],
             'services': ['service', 'offering', 'what do you do', 'capabilities', 'help with'],
@@ -89,18 +79,14 @@ class AdvancedChatbot:
             'energy': ['energy', 'efficiency', 'modeling', 'simulation', 'optimization'],
             'farewell': ['bye', 'goodbye', 'thank you', 'thanks', 'see you']
         }
-        
         detected_intents = []
         for intent, keywords in intents.items():
             if any(keyword in query for keyword in keywords):
                 detected_intents.append(intent)
-        
         return detected_intents if detected_intents else ['general']
-    
+
     def get_contextual_response(self, query, intents):
-        """Generate contextual responses based on intents and query analysis"""
         responses = []
-        
         if 'greeting' in intents:
             greetings = [
                 "Hello! I'm your ECO Matrix AI Assistant. How can I help you today?",
@@ -108,9 +94,9 @@ class AdvancedChatbot:
                 "Greetings! I'm here to help you with all your energy modeling questions."
             ]
             responses.append(random.choice(greetings))
-        
         if 'services' in intents:
-            responses.append("""**ECO Matrix Services:**
+            responses.append(f"""
+**ECO Matrix Services:**
 
 🏢 **Core Offering**: Our innovative SaaS application helps Architectural, Engineering, and Construction firms identify building design solutions that maximize energy efficiency while minimizing costs.
 
@@ -123,10 +109,11 @@ class AdvancedChatbot:
 - Detailed building load analysis
 - Expert energy modeling consultation
 
-💡 **Value Proposition**: We enable you to compare thousands of design options with detailed analysis, ensuring you get the most cost-effective and energy-efficient solutions for your projects.""")
-        
+💡 **Value Proposition**: We enable you to compare thousands of design options with detailed analysis, ensuring you get the most cost-effective and energy-efficient solutions for your projects.
+            """)
         if 'product' in intents or 'technical' in intents:
-            responses.append("""**ECO Matrix Platform Features:**
+            responses.append(f"""
+**ECO Matrix Platform Features:**
 
 🎯 **3D Modeling**: Generate project-specific 3D building models tailored to your requirements
 
@@ -140,10 +127,11 @@ class AdvancedChatbot:
 
 🔗 **Integration**: Seamlessly integrates with existing AEC industry workflows
 
-The platform uses proprietary algorithms to help you make data-driven decisions for optimal building performance.""")
-        
+The platform uses proprietary algorithms to help you make data-driven decisions for optimal building performance.
+            """)
         if 'company' in intents:
-            responses.append("""**About ECO Matrix:**
+            responses.append(f"""
+**About ECO Matrix:**
 
 🏢 **Company**: ECO Matrix is a specialized energy modeling consultancy based in Winnipeg, Canada
 
@@ -153,20 +141,22 @@ The platform uses proprietary algorithms to help you make data-driven decisions 
 
 🌍 **Industry Focus**: We serve the Architectural, Engineering, and Construction industries
 
-🚀 **Innovation**: We're committed to providing cutting-edge solutions that drive energy efficiency and cost optimization in building design""")
-        
+🚀 **Innovation**: We're committed to providing cutting-edge solutions that drive energy efficiency and cost optimization in building design
+            """)
         if 'contact' in intents:
-            responses.append("""**Contact ECO Matrix:**
+            responses.append(f"""
+**Contact ECO Matrix:**
 
 📧 **Email**: anup@ecomatrix.io
 📞 **Phone**: +1 (204) 894 0387
 🌐 **Website**: https://ecomatrix.io
 📍 **Location**: Winnipeg, Canada
 
-Feel free to reach out for consultations, demos, or any questions about our energy modeling services!""")
-        
+Feel free to reach out for consultations, demos, or any questions about our energy modeling services!
+            """)
         if 'energy' in intents:
-            responses.append("""**Energy Modeling & Optimization:**
+            responses.append(f"""
+**Energy Modeling & Optimization:**
 
 🔋 **Energy Efficiency**: Our platform maximizes building energy efficiency through advanced modeling techniques
 
@@ -178,10 +168,11 @@ Feel free to reach out for consultations, demos, or any questions about our ener
 
 📊 **Optimization Reports**: Comprehensive reports showing energy savings potential and cost implications
 
-Our energy modeling approach ensures your buildings meet or exceed efficiency standards while staying within budget.""")
-        
+Our energy modeling approach ensures your buildings meet or exceed efficiency standards while staying within budget.
+            """)
         if 'benefits' in intents:
-            responses.append("""**Why Choose ECO Matrix:**
+            responses.append(f"""
+**Why Choose ECO Matrix:**
 
 ✅ **Cost Savings**: Minimize both capital and operational costs through optimized design
 
@@ -195,18 +186,19 @@ Our energy modeling approach ensures your buildings meet or exceed efficiency st
 
 🏆 **Competitive Advantage**: Stay ahead with cutting-edge energy modeling technology
 
-💼 **Expert Support**: Access to experienced energy modeling professionals""")
-        
+💼 **Expert Support**: Access to experienced energy modeling professionals
+            """)
         if 'pricing' in intents:
-            responses.append("""**Pricing Information:**
+            responses.append(f"""
+**Pricing Information:**
 
 For detailed pricing information and subscription options, please contact us directly:
 
 📧 Email: anup@ecomatrix.io
 📞 Phone: +1 (204) 894 0387
 
-We offer flexible pricing models tailored to your project needs and company size. Our team will be happy to discuss options that work best for your specific requirements.""")
-        
+We offer flexible pricing models tailored to your project needs and company size. Our team will be happy to discuss options that work best for your specific requirements.
+            """)
         if 'farewell' in intents:
             farewells = [
                 "Thank you for your interest in ECO Matrix! Feel free to reach out anytime.",
@@ -214,24 +206,20 @@ We offer flexible pricing models tailored to your project needs and company size
                 "Thanks for chatting! We're here whenever you need energy modeling expertise."
             ]
             responses.append(random.choice(farewells))
-        
-        # Fallback for general queries
         if not responses or 'general' in intents:
-            # Try to find relevant information based on keywords
             keywords = query.split()
             relevant_info = []
-            
             for keyword in keywords:
                 for category, data in KNOWLEDGE_BASE.items():
                     if isinstance(data, dict):
                         for key, value in data.items():
                             if keyword in key.lower() or keyword in str(value).lower():
                                 relevant_info.append(f"**{key.replace('_', ' ').title()}**: {value}")
-            
             if relevant_info:
                 responses.append("Here's what I found relevant to your query:\n\n" + "\n".join(relevant_info[:3]))
             else:
-                responses.append("""I'd be happy to help you with information about ECO Matrix! Here are some topics I can assist with:
+                responses.append(f"""
+I'd be happy to help you with information about ECO Matrix! Here are some topics I can assist with:
 
 🏢 **Company Information** - Learn about ECO Matrix and our mission
 🔧 **Services** - Discover our energy modeling and optimization services
@@ -240,21 +228,18 @@ We offer flexible pricing models tailored to your project needs and company size
 ⚡ **Energy Modeling** - Understand our technical approach
 💰 **Benefits** - See why ECO Matrix is the right choice
 
-Please feel free to ask about any of these topics or anything specific about energy modeling and building optimization!""")
-        
+Please feel free to ask about any of these topics or anything specific about energy modeling and building optimization!
+                """)
         return "\n\n".join(responses)
-    
+
     def generate_response(self, query):
-        """Main method to generate intelligent responses"""
         processed_query = self.preprocess_query(query)
         intents = self.extract_intent(processed_query)
         response = self.get_contextual_response(processed_query, intents)
         return response
 
-# Initialize chatbot instance
 chatbot = AdvancedChatbot()
 
-# HTML Template
 HTML_TEMPLATE = """
 <!DOCTYPE html>
 <html lang="en">
@@ -405,12 +390,6 @@ HTML_TEMPLATE = """
             transform: translateY(-1px);
         }
         
-        .send-button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
         .sidebar {
             flex: 1;
             display: flex;
@@ -476,15 +455,6 @@ HTML_TEMPLATE = """
             color: #2E8B57;
         }
         
-        .contact-details a {
-            color: #2E8B57;
-            text-decoration: none;
-        }
-        
-        .contact-details a:hover {
-            text-decoration: underline;
-        }
-        
         .footer {
             text-align: center;
             color: #666;
@@ -508,7 +478,6 @@ HTML_TEMPLATE = """
             border-top: 3px solid #2E8B57;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin-right: 10px;
         }
         
         @keyframes spin {
@@ -549,7 +518,7 @@ HTML_TEMPLATE = """
             </div>
             
             <div class="chat-messages" id="chatMessages">
-            </div>
+                </div>
             
             <div class="loading" id="loading">
                 <div class="spinner"></div>
@@ -560,7 +529,7 @@ HTML_TEMPLATE = """
                 <form class="input-form" id="messageForm">
                     <input type="text" class="message-input" id="messageInput" 
                            placeholder="Ask me anything about ECO Matrix..." required>
-                    <button type="submit" class="send-button" id="sendButton">Send 📤</button>
+                    <button type="submit" class="send-button">Send 📤</button>
                 </form>
             </div>
         </div>
@@ -596,7 +565,7 @@ HTML_TEMPLATE = """
                 <div class="contact-details">
                     <strong>Email:</strong> anup@ecomatrix.io<br>
                     <strong>Phone:</strong> +1 (204) 894 0387<br>
-                    <strong>Website:</strong> <a href="https://ecomatrix.io" target="_blank">ecomatrix.io</a>
+                    <strong>Website:</strong> <a href="https://ecomatrix.io" target="_blank">https://ecomatrix.io</a>
                 </div>
             </div>
         </div>
@@ -605,134 +574,125 @@ HTML_TEMPLATE = """
     <div class="footer">
         Powered by ECO Matrix AI Assistant | Advanced Energy Modeling Solutions | © 2025 All Rights Reserved.
     </div>
-    
-<  <script>
-    let isLoading = false;
-    const messageForm = document.getElementById('messageForm');
-    const messageInput = document.getElementById('messageInput');
-    const chatMessages = document.getElementById('chatMessages');
-    const loading = document.getElementById('loading');
-    const sendButton = document.getElementById('sendButton');
-
-    function formatMessage(content) {
-      return content
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-        .replace(/\n/g, '<br>');
-    }
-
-    function addMessage(role, content) {
-      const messageDiv = document.createElement('div');
-      messageDiv.className = `message ${role}-message`;
-
-      const messageHeader = document.createElement('div');
-      messageHeader.className = 'message-header';
-      messageHeader.textContent = role === 'user' ? 'You:' : 'ECO Matrix AI:';
-
-      const messageContent = document.createElement('div');
-      messageContent.className = 'message-content';
-      messageContent.innerHTML = formatMessage(content);
-
-      messageDiv.appendChild(messageHeader);
-      messageDiv.appendChild(messageContent);
-      chatMessages.appendChild(messageDiv);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-
-    async function sendMessage(message) {
-      if (isLoading || !message.trim()) return;
-
-      isLoading = true;
-      loading.style.display = 'block';
-      sendButton.disabled = true;
-
-      addMessage('user', message);
-      messageInput.value = '';
-
-      try {
-        const response = await fetch('/chat', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({ message: message })
-        });
-
-        const data = await response.json();
-
-        if (response.ok && data.success) {
-          addMessage('bot', data.response);
-        } else {
-          addMessage('bot', data.error || 'Sorry, I encountered an error. Please try again.');
+    <script>
+        let isLoading = false;
+        const messageForm = document.getElementById('messageForm');
+        const messageInput = document.getElementById('messageInput');
+        const chatMessages = document.getElementById('chatMessages');
+        const loading = document.getElementById('loading');
+        function formatMessage(content) {
+            return content
+                .replace(/\\*\\*(.*?)\\*\\*/g, '<strong>$1</strong>')
+                .replace(/\\*(.*?)\\*/g, '<em>$1</em>')
+                .replace(/\\n/g, '<br>');
         }
-      } catch (error) {
-        console.error('Error:', error);
-        addMessage('bot', 'Sorry, I encountered a connection error. Please try again.');
-      } finally {
-        isLoading = false;
-        loading.style.display = 'none';
-        sendButton.disabled = false;
-        messageInput.focus();
-      }
-    }
-
-    messageForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const message = messageInput.value.trim();
-      if (message && !isLoading) {
-        sendMessage(message);
-      }
-    });
-
-    messageInput.addEventListener('keypress', function (e) {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        const message = messageInput.value.trim();
-        if (message && !isLoading) {
-          sendMessage(message);
+        function addMessage(role, content) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${role}-message`;
+            const messageHeader = document.createElement('div');
+            messageHeader.className = 'message-header';
+            messageHeader.textContent = role === 'user' ? 'You:' : 'ECO Matrix AI:';
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message-content';
+            messageContent.innerHTML = formatMessage(content);
+            messageDiv.appendChild(messageHeader);
+            messageDiv.appendChild(messageContent);
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
-      }
-    });
-
-    function sendQuickMessage(msg) {
-      if (!isLoading) {
-        messageInput.value = msg;
-        sendMessage(msg);
-      }
-    }
-
-    async function clearConversation() {
-      if (confirm('Are you sure you want to clear the conversation?')) {
-        try {
-          await fetch('/clear', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
+        async function sendMessage(message) {
+            if (isLoading) return;
+            isLoading = true;
+            loading.style.display = 'block';
+            addMessage('user', message);
+            messageInput.value = '';
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ message: message })
+                });
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error(`HTTP error! status: ${response.status}, response: ${errorText}`);
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                if (data.success) {
+                    addMessage('bot', data.response);
+                } else {
+                    addMessage('bot', data.error || 'Sorry, I encountered an unknown error. Please try again.');
+                }
+            } catch (error) {
+                console.error('Fetch Error:', error);
+                addMessage('bot', 'Sorry, I encountered an error. Please check your connection and try again.');
+            } finally {
+                isLoading = false;
+                loading.style.display = 'none';
             }
-          });
-          chatMessages.innerHTML = '';
-          addMessage('bot', 'Hello! I\'m your ECO Matrix AI Assistant. How can I help you today?');
-        } catch {
-          chatMessages.innerHTML = '';
-          addMessage('bot', 'Hello! I\'m your ECO Matrix AI Assistant. How can I help you today?');
         }
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      addMessage('bot', 'Hello! I\'m your ECO Matrix AI Assistant. How can I help you today?');
-      messageInput.focus();
-    });
-  </script>
+        messageForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const message = messageInput.value.trim();
+            if (message && !isLoading) {
+                sendMessage(message);
+            }
+        });
+        function sendQuickMessage(message) {
+            if (!isLoading) {
+                sendMessage(message);
+            }
+        }
+        messageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                const message = messageInput.value.trim();
+                if (message && !isLoading) {
+                    sendMessage(message);
+                }
+            }
+        });
+        async function clearConversation() {
+            if (confirm('Are you sure you want to clear the conversation?')) {
+                try {
+                    const response = await fetch('/clear', { 
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    });
+                    if (response.ok) {
+                        chatMessages.innerHTML = '';
+                        addMessage('bot', 'Hello! I\'m your ECO Matrix AI Assistant. How can I help you today?');
+                    } else {
+                        const errorText = await response.text();
+                        console.error('Failed to clear conversation:', errorText);
+                        alert('Failed to clear conversation on server. Please try refreshing the page.');
+                    }
+                } catch (error) {
+                    console.error('Error clearing conversation:', error);
+                    alert('Error communicating with server to clear conversation.');
+                }
+            }
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            addMessage('bot', 'Hello! I\'m your ECO Matrix AI Assistant. How can I help you today?');
+        });
+    </script>
 </body>
 </html>
 """
 
+def render_template(template, **context):
+    return render_template_string(template, **context)
+
 @app.route('/')
 def index():
-    return render_template('index.html', html_content=HTML_TEMPLATE)
+    return render_template(HTML_TEMPLATE)
 
 @app.route('/chat', methods=['POST'])
 def chat():

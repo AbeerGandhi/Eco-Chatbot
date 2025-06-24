@@ -1,4 +1,4 @@
-To run: python main.py
+To run: python main.py flask html code 
 
 🚀 Advanced Features:
 
