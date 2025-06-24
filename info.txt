@@ -1,0 +1,28 @@
+To run streamlit run main.py
+
+🚀 Advanced Features:
+
+Intelligent Intent Recognition - Automatically detects what users are asking about
+Contextual Responses - Provides comprehensive, relevant answers
+Conversation Memory - Maintains context throughout the chat
+Multi-Intent Handling - Can respond to complex queries with multiple topics
+Natural Language Processing - Processes queries intelligently
+Dynamic Response Generation - Creates varied, human-like responses
+
+🎯 Key Capabilities:
+
+Comprehensive Knowledge Base - Extensive information about ECO Matrix
+Smart Query Processing - Understands variations in how questions are asked
+Beautiful UI - Professional, modern interface with chat bubbles
+Quick Actions - Pre-defined buttons for common questions
+Conversation History - Keeps track of the entire conversation
+Fallback Intelligence - Provides helpful responses even for unclear queries
+
+💡 What Makes It GPT/Claude-like:
+
+Understanding Context - Recognizes different ways of asking the same question
+Comprehensive Responses - Provides detailed, structured answers
+Multi-topic Handling - Can discuss services, technical details, company info, etc.
+Natural Conversation Flow - Maintains engaging dialogue
+Intelligent Fallbacks - Always provides helpful information
+Memory & Learning - Remembers conversation context
