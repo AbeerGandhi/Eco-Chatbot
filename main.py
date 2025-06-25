@@ -112,9 +112,9 @@ class AdvancedChatbot:
         if 'services' in intents:
             responses.append("""**ECO Matrix Services:**
 
-🏢 **Core Offering**: Our innovative SaaS application helps Architectural, Engineering, and Construction firms identify building design solutions that maximize energy efficiency while minimizing costs.
+ **Core Offering**: Our innovative SaaS application helps Architectural, Engineering, and Construction firms identify building design solutions that maximize energy efficiency while minimizing costs.
 
-🔧 **Key Services**:
+ **Key Services**:
 - Advanced parametric energy modeling protocols
 - Building design optimization and analysis
 - Capital and operational cost minimization strategies
@@ -123,87 +123,87 @@ class AdvancedChatbot:
 - Detailed building load analysis
 - Expert energy modeling consultation
 
-💡 **Value Proposition**: We enable you to compare thousands of design options with detailed analysis, ensuring you get the most cost-effective and energy-efficient solutions for your projects.""")
+ **Value Proposition**: We enable you to compare thousands of design options with detailed analysis, ensuring you get the most cost-effective and energy-efficient solutions for your projects.""")
         
         if 'product' in intents or 'technical' in intents:
             responses.append("""**ECO Matrix Platform Features:**
 
-🎯 **3D Modeling**: Generate project-specific 3D building models tailored to your requirements
+ **3D Modeling**: Generate project-specific 3D building models tailored to your requirements
 
-⚡ **Energy Simulation**: Perform comprehensive energy simulations for various design combinations
+ **Energy Simulation**: Perform comprehensive energy simulations for various design combinations
 
-📊 **Comparison Engine**: Compare thousands of design options simultaneously
+ **Comparison Engine**: Compare thousands of design options simultaneously
 
-💰 **Cost Optimization**: Identify solutions that outperform benchmarks in cost-effectiveness
+ **Cost Optimization**: Identify solutions that outperform benchmarks in cost-effectiveness
 
-📈 **Performance Analytics**: Detailed reporting and energy benchmarking capabilities
+ **Performance Analytics**: Detailed reporting and energy benchmarking capabilities
 
-🔗 **Integration**: Seamlessly integrates with existing AEC industry workflows
+ **Integration**: Seamlessly integrates with existing AEC industry workflows
 
 The platform uses proprietary algorithms to help you make data-driven decisions for optimal building performance.""")
         
         if 'company' in intents:
             responses.append("""**About ECO Matrix:**
 
-🏢 **Company**: ECO Matrix is a specialized energy modeling consultancy based in Winnipeg, Canada
+ **Company**: ECO Matrix is a specialized energy modeling consultancy based in Winnipeg, Canada
 
-🎯 **Mission**: We focus on optimizing building decision metrics and KPIs for the AEC industry through advanced parametric modeling protocols
+ **Mission**: We focus on optimizing building decision metrics and KPIs for the AEC industry through advanced parametric modeling protocols
 
-👥 **Expertise**: Our team consists of expert energy modeling professionals and engineers
+ **Expertise**: Our team consists of expert energy modeling professionals and engineers
 
-🌍 **Industry Focus**: We serve the Architectural, Engineering, and Construction industries
+ **Industry Focus**: We serve the Architectural, Engineering, and Construction industries
 
-🚀 **Innovation**: We're committed to providing cutting-edge solutions that drive energy efficiency and cost optimization in building design""")
+ **Innovation**: We're committed to providing cutting-edge solutions that drive energy efficiency and cost optimization in building design""")
         
         if 'contact' in intents:
             responses.append("""**Contact ECO Matrix:**
 
-📧 **Email**: anup@ecomatrix.io
-📞 **Phone**: +1 (204) 894 0387
-🌐 **Website**: https://ecomatrix.io
-📍 **Location**: Winnipeg, Canada
+ **Email**: anup@ecomatrix.io
+ **Phone**: +1 (204) 894 0387
+ **Website**: https://ecomatrix.io
+ **Location**: Winnipeg, Canada
 
 Feel free to reach out for consultations, demos, or any questions about our energy modeling services!""")
         
         if 'energy' in intents:
             responses.append("""**Energy Modeling & Optimization:**
 
-🔋 **Energy Efficiency**: Our platform maximizes building energy efficiency through advanced modeling techniques
+ **Energy Efficiency**: Our platform maximizes building energy efficiency through advanced modeling techniques
 
-📐 **Parametric Modeling**: We use sophisticated parametric protocols to analyze multiple design scenarios
+ **Parametric Modeling**: We use sophisticated parametric protocols to analyze multiple design scenarios
 
-⚖️ **Performance Benchmarking**: Compare your building's performance against industry standards and codes
+ **Performance Benchmarking**: Compare your building's performance against industry standards and codes
 
-🎛️ **Load Analysis**: Detailed analysis of building energy loads and consumption patterns
+ **Load Analysis**: Detailed analysis of building energy loads and consumption patterns
 
-📊 **Optimization Reports**: Comprehensive reports showing energy savings potential and cost implications
+ **Optimization Reports**: Comprehensive reports showing energy savings potential and cost implications
 
 Our energy modeling approach ensures your buildings meet or exceed efficiency standards while staying within budget.""")
         
         if 'benefits' in intents:
             responses.append("""**Why Choose ECO Matrix:**
 
-✅ **Cost Savings**: Minimize both capital and operational costs through optimized design
+ **Cost Savings**: Minimize both capital and operational costs through optimized design
 
-⚡ **Energy Efficiency**: Maximize building performance and energy savings
+ **Energy Efficiency**: Maximize building performance and energy savings
 
-🎯 **Data-Driven Decisions**: Make informed choices based on comprehensive analysis
+ **Data-Driven Decisions**: Make informed choices based on comprehensive analysis
 
-⏱️ **Time Efficiency**: Quickly compare thousands of design options
+⏱ **Time Efficiency**: Quickly compare thousands of design options
 
-📋 **Compliance Assurance**: Ensure building code compliance from the design phase
+ **Compliance Assurance**: Ensure building code compliance from the design phase
 
-🏆 **Competitive Advantage**: Stay ahead with cutting-edge energy modeling technology
+ **Competitive Advantage**: Stay ahead with cutting-edge energy modeling technology
 
-💼 **Expert Support**: Access to experienced energy modeling professionals""")
+ **Expert Support**: Access to experienced energy modeling professionals""")
         
         if 'pricing' in intents:
             responses.append("""**Pricing Information:**
 
 For detailed pricing information and subscription options, please contact us directly:
 
-📧 Email: anup@ecomatrix.io
-📞 Phone: +1 (204) 894 0387
+ Email: anup@ecomatrix.io
+ Phone: +1 (204) 894 0387
 
 We offer flexible pricing models tailored to your project needs and company size. Our team will be happy to discuss options that work best for your specific requirements.""")
         
@@ -233,12 +233,12 @@ We offer flexible pricing models tailored to your project needs and company size
             else:
                 responses.append("""I'd be happy to help you with information about ECO Matrix! Here are some topics I can assist with:
 
-🏢 **Company Information** - Learn about ECO Matrix and our mission
-🔧 **Services** - Discover our energy modeling and optimization services
-💻 **Platform Features** - Explore our SaaS application capabilities
-📞 **Contact Details** - Get in touch with our team
-⚡ **Energy Modeling** - Understand our technical approach
-💰 **Benefits** - See why ECO Matrix is the right choice
+ **Company Information** - Learn about ECO Matrix and our mission
+ **Services** - Discover our energy modeling and optimization services
+ **Platform Features** - Explore our SaaS application capabilities
+ **Contact Details** - Get in touch with our team
+ **Energy Modeling** - Understand our technical approach
+ **Benefits** - See why ECO Matrix is the right choice
 
 Please feel free to ask about any of these topics or anything specific about energy modeling and building optimization!""")
         
@@ -262,6 +262,9 @@ HTML_TEMPLATE = """
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ECO Matrix AI Assistant</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+
     <style>
         * {
             margin: 0;
@@ -560,7 +563,7 @@ HTML_TEMPLATE = """
                 <form class="input-form" id="messageForm">
                     <input type="text" class="message-input" id="messageInput" 
                            placeholder="Ask me anything about ECO Matrix..." required>
-                    <button type="submit" class="send-button" id="sendButton">Send 📤</button>
+                    <button type="submit" class="send-button" id="sendButton">Send </button>
                 </form>
             </div>
         </div>
